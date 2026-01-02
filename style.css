@@ -1,0 +1,92 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #1a1f36, #0b0f1a);
+  color: white;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+}
+
+.new-list input {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+.new-list button {
+  padding: 10px 14px;
+  margin-left: 8px;
+  border: none;
+  border-radius: 10px;
+  background: #7b6cff;
+  color: white;
+  cursor: pointer;
+}
+
+#listsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 30px;
+}
+
+.list-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(15px);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.list-card h2 {
+  margin: 0 0 10px;
+}
+
+.task-input {
+  display: flex;
+  gap: 6px;
+}
+
+.task-input input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+}
+
+.task-input button {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+  background: #5ddcff;
+  cursor: pointer;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.1);
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.task button {
+  border: none;
+  background: transparent;
+  color: #ff6b6b;
+  font-size: 16px;
+  cursor: pointer;
+}
