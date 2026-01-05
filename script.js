@@ -11,42 +11,70 @@ function saveLists() {
 function renderLists() {
   listsContainer.innerHTML = "";
 
-  lists.forEach(list => {
+  lists.forEach((list, listIndex) => {
     const card = document.createElement("div");
     card.className = "list-card";
+    if (list.done) card.classList.add("completed");
 
     card.innerHTML = `
-      <h2>${list.name}</h2>
-      <div class="task-input">
-        <input placeholder="New task..." />
-        <button>Add</button>
+      <div class="list-header">
+        <div class="list-header-left">
+          <input type="checkbox" ${list.done ? "checked" : ""} />
+          <h2>${list.name}</h2>
+        </div>
+        <button class="delete-list">🗑</button>
       </div>
+
+      <div class="task-input">
+        <input placeholder="New task..." ${list.done ? "disabled" : ""} />
+        <button ${list.done ? "disabled" : ""}>Add</button>
+      </div>
+
       <div class="tasks"></div>
     `;
 
-    const taskInput = card.querySelector("input");
-    const addTaskBtn = card.querySelector("button");
+    const checkbox = card.querySelector("input[type='checkbox']");
+    const deleteBtn = card.querySelector(".delete-list");
+    const taskInput = card.querySelector(".task-input input");
+    const addTaskBtn = card.querySelector(".task-input button");
     const tasksDiv = card.querySelector(".tasks");
 
-    list.tasks.forEach((task, i) => {
-      const t = document.createElement("div");
-      t.className = "task";
-      t.innerHTML = `<span>${task}</span><button>✕</button>`;
+    checkbox.addEventListener("change", () => {
+      list.done = checkbox.checked;
+      saveLists();
+      renderLists();
+    });
 
-      t.querySelector("button").onclick = () => {
-        list.tasks.splice(i, 1);
+    deleteBtn.addEventListener("click", () => {
+      lists.splice(listIndex, 1);
+      saveLists();
+      renderLists();
+    });
+
+    list.tasks.forEach((task, taskIndex) => {
+      const taskEl = document.createElement("div");
+      taskEl.className = "task";
+
+      taskEl.innerHTML = `
+        <span>${task}</span>
+        <button>✕</button>
+      `;
+
+      taskEl.querySelector("button").onclick = () => {
+        list.tasks.splice(taskIndex, 1);
         saveLists();
         renderLists();
       };
 
-      tasksDiv.appendChild(t);
+      tasksDiv.appendChild(taskEl);
     });
 
     addTaskBtn.onclick = () => {
-      const val = taskInput.value.trim();
-      if (!val) return;
+      const value = taskInput.value.trim();
+      if (!value) return;
 
-      list.tasks.push(val);
+      list.tasks.push(value);
+      taskInput.value = "";
       saveLists();
       renderLists();
     };
@@ -62,7 +90,8 @@ addListBtn.onclick = () => {
   lists.push({
     id: Date.now(),
     name,
-    tasks: []
+    tasks: [],
+    done: false
   });
 
   listNameInput.value = "";
